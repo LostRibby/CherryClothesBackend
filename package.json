@@ -1,0 +1,26 @@
+{
+  "name": "cherryclothesbackend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/LostRibby/CherryClothesBE#readme",
+  "bugs": {
+    "url": "https://github.com/LostRibby/CherryClothesBE/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LostRibby/CherryClothesBE.git"
+  },
+  "license": "ISC",
+  "author": "Maëlle Baudot",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=.env app.js",
+    "dev": "node --watch --env-file=.env app.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.1.0"
+  }
+}
