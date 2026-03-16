@@ -1,20 +1,33 @@
-const User = require('../Models/user.model'); 
+const User = require('../Models/user.model');
 
-const userService ={
-    find : async ()=>{
-        try{
-            const users = await User.find(); 
-            return users; 
+const userService = {
+   find: async(query)=>{
+    try{
+        const {search}= query; 
+
+        let searchFilter;
+        let firstnameFilter; 
+        let lastnameFilter; 
+
+        if(!search){
+            firstnameFilter={};
+            lastnameFilter={}; 
+        }else{
+            searchFilter={$regex: new RegExp(search, 'i')}; 
+            firstnameFilter = {firstname : searchFilter}; 
+            lastnameFilter = {lastname : searchFilter}; 
         }
-        catch(err){
-            console.log(err); 
+        console.log(firstnameFilter);
+        console.log(lastnameFilter);
+
+        const users = await User.find()
+        .or([firstnameFilter, lastnameFilter])
+        .select(['_id', 'firstname', 'lastname', 'createdAt','updatedAt']); 
+        return users; 
+        }catch(err){
             throw new Error(err); 
         }
-    }, 
-    create: async (user)=>{
-     try{
-      
-     }
-    },
-
+   }
 }
+
+module.exports = userService; 

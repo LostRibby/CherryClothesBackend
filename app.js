@@ -4,8 +4,10 @@ const server = express();
 
  server.use(express.json()); 
 
- const LogMiddleware = require("./Middlewares/log.middlexare"); 
-
+ const LogMiddleware = require("./Middlewares/log.middleware"); 
+ server.use(express.json()); 
+ 
+ 
  const mongoose = require("mongoose"); 
 server.use(async (req, res, next)=>{
     try{
