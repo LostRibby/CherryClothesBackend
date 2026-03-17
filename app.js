@@ -1,29 +1,26 @@
 const express = require('express');
 const server = express();
- const { PORT, DB_CONNECTION } = process.env;
+const { PORT, MONGODB_URI } = process.env;
+const mongoose = require("mongoose");
 
- server.use(express.json()); 
 
- const LogMiddleware = require("./Middlewares/log.middleware"); 
- server.use(express.json()); 
- 
- 
- const mongoose = require("mongoose"); 
-server.use(async (req, res, next)=>{
-    try{
-        await mongoose.connect(DB_CONNECTION, { dbName : 'CherryClothesDB'}); 
-        console.log("connecté avec succès à la db"); 
+server.use(express.json());
 
-        next(); 
-    }catch(err){
-        console.log(`connection ratée \n[Reason]\n ${err}`);
+const LogMiddleware = require("./Middlewares/log.middleware");
+server.use(LogMiddleware);
+
+
+mongoose.connect(MONGODB_URI, { dbName: 'CheryClothesDB' })
+    .then(() => {
+        console.log('connecté à la DB');
+        server.listen(PORT, () => {
+            console.log(`Server démarré au port ${PORT}`)
+        });
+
+    })
+    .catch(err =>{ 
         
-        res.status(500).json( {statusCode : 500 , message : 'connexion à la db impossible'}); 
-    }
-}); 
-const router = require("./Routes/app"); 
+    })
+const router = require("./Routes/app");
 server.use('/api', router)
-
-server.listen(PORT, ()=>{
-    console/log(`Server démarré au port ${PORT}`)
-})
+ 
